@@ -14,6 +14,7 @@ import BookingSummary from "@/components/dashboard/booking-summary";
 import ControlPanel from "@/components/dashboard/control-panel";
 import StatsCard from "@/components/dashboard/stats-card";
 import Legend from "@/components/dashboard/legend";
+import { toast } from "sonner";
 
 export default function Home() {
   const { rooms, setRooms, clearAll } = useHotelStore();
@@ -41,8 +42,23 @@ export default function Home() {
   function handleBooking() {
     const requiredRooms = Number(count);
 
-    if (requiredRooms < 1 || requiredRooms > 5) {
-      alert("You can only book 1 to 5 rooms");
+    if (!count) {
+      toast.error("Please enter number of rooms");
+      return;
+    }
+
+    if (Number.isNaN(requiredRooms)) {
+      toast.error("Invalid room count");
+      return;
+    }
+
+    if (requiredRooms < 1) {
+      toast.error("Minimum booking is 1 room");
+      return;
+    }
+
+    if (requiredRooms > 5) {
+      toast.error("Maximum booking allowed is 5 rooms");
       return;
     }
 
@@ -60,7 +76,7 @@ export default function Home() {
     const bestRooms = findBestRooms(cleanedRooms, requiredRooms);
 
     if (bestRooms.length === 0) {
-      alert("Rooms not available");
+      toast.error("Rooms not available");
       return;
     }
 
@@ -78,6 +94,12 @@ export default function Home() {
     });
 
     setRooms(updatedRooms);
+
+    toast.success(
+      `${requiredRooms} room${
+        requiredRooms > 1 ? "s" : ""
+      } selected successfully`
+    );
   }
 
   function handleReset() {
@@ -93,6 +115,8 @@ export default function Home() {
     });
 
     setRooms(updatedRooms);
+
+    toast.success("Temporary selections cleared");
   }
 
   function handleRandom() {
@@ -107,13 +131,13 @@ export default function Home() {
       return room;
     });
 
-    const availableRooms = clearedRooms.filter(
+    const updatedRooms = [...clearedRooms];
+
+    const availableRooms = updatedRooms.filter(
       (room) => room.status === "available"
     );
 
-    const updatedRooms = [...clearedRooms];
-
-    const groups = Math.floor(Math.random() * 6) + 6;
+    const groups = Math.floor(Math.random() * 18) + 22;
 
     for (let i = 0; i < groups; i++) {
       const floor = Math.floor(Math.random() * 10) + 1;
@@ -124,11 +148,13 @@ export default function Home() {
 
       if (!floorRooms.length) continue;
 
-      const size = Math.floor(Math.random() * 4) + 1;
+      const size = Math.floor(Math.random() * 5) + 1;
 
       if (floorRooms.length < size) continue;
 
-      const start = Math.floor(Math.random() * (floorRooms.length - size + 1));
+      const start = Math.floor(
+        Math.random() * Math.max(1, floorRooms.length - size)
+      );
 
       const selection = floorRooms.slice(start, start + size);
 
@@ -141,12 +167,17 @@ export default function Home() {
       });
     }
 
-    setRooms(updatedRooms);
+    setRooms([...updatedRooms]);
   }
 
   function handleSubmit() {
+    if (selectedRooms.length === 0) {
+      toast.error("Please book rooms before submitting");
+      return;
+    }
+
     const updatedRooms = rooms.map((room) => {
-      if (room.status === "random" || room.status === "selected") {
+      if (room.status === "selected" || room.status === "random") {
         return {
           ...room,
           status: "confirmed" as const,
@@ -157,7 +188,14 @@ export default function Home() {
     });
 
     setRooms(updatedRooms);
+
     setCount("");
+
+    toast.success(
+      `${selectedRooms.length} room${
+        selectedRooms.length > 1 ? "s" : ""
+      } booked successfully`
+    );
   }
 
   return (
@@ -207,6 +245,7 @@ export default function Home() {
             handleSubmit={handleSubmit}
             handleReset={handleReset}
             clearAll={clearAll}
+            hasSelection={selectedRooms.length > 0}
           />
         </div>
 

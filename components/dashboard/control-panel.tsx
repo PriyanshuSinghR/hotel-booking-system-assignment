@@ -8,6 +8,7 @@ type Props = {
   handleSubmit: () => void;
   handleReset: () => void;
   clearAll: () => void;
+  hasSelection: boolean;
 };
 
 export default function ControlPanel({
@@ -18,6 +19,7 @@ export default function ControlPanel({
   handleSubmit,
   handleReset,
   clearAll,
+  hasSelection,
 }: Props) {
   return (
     <div className="flex flex-wrap gap-3">
@@ -82,14 +84,18 @@ export default function ControlPanel({
 
       <button
         onClick={handleSubmit}
-        className="
-          h-12 px-5 rounded-2xl
-          bg-emerald-500 hover:bg-emerald-600
-          text-white font-semibold
-          transition-all duration-300
-          hover:scale-105 active:scale-95
-          shadow-lg shadow-emerald-500/20
-        "
+        disabled={!hasSelection}
+        className={`
+    h-12 px-5 rounded-2xl
+    text-white font-semibold
+    transition-all duration-300
+    shadow-lg
+    ${
+      hasSelection
+        ? "bg-emerald-500 hover:bg-emerald-600 hover:scale-105 active:scale-95 shadow-emerald-500/20"
+        : "bg-slate-700 cursor-not-allowed opacity-50"
+    }
+  `}
       >
         Submit
       </button>
