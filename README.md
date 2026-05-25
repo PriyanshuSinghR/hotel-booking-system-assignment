@@ -242,25 +242,3 @@ lib/
 store/
 types/
 ```
-
----
-
-# Future Improvements
-
-Potential future enhancements:
-
-- Authentication system
-- Booking history
-- Admin dashboard
-- Backend integration
-- Database persistence
-- Analytics dashboard
-- Room filtering system
-
----
-
-# Author
-
-Priyanshu Singh
-
-Full Stack Engineer
