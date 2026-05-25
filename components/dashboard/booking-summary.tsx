@@ -1,4 +1,4 @@
-import { CheckCircle2, WandSparkles } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { Room } from "@/types/room";
 
 type Props = {
@@ -79,10 +79,6 @@ export default function BookingSummary({ selectedRooms }: Props) {
           </div>
         ) : (
           <div className="py-14 text-center">
-            <div className="w-16 h-16 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-5">
-              <WandSparkles className="text-slate-500" size={28} />
-            </div>
-
             <h3 className="text-white font-semibold text-lg">
               No Active Selection
             </h3>

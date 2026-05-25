@@ -171,7 +171,7 @@ export default function Home() {
       </div>
 
       <div className="relative z-10 max-w-[1700px] mx-auto">
-        <div className="flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between gap-6 mb-8 lg:mb-10">
+        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-8 lg:mb-10">
           <div className="flex flex-col sm:flex-row sm:items-center gap-5">
             <div className="relative">
               <div className="absolute inset-0 bg-blue-500/30 blur-2xl rounded-full" />
@@ -210,7 +210,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="grid grid-cols-1 2xl:grid-cols-[900px_380px] gap-6 lg:gap-8 justify-center">
+        <div className="grid grid-cols-1 xl:grid-cols-[900px_380px] gap-6 lg:gap-8 justify-center">
           <div className="bg-white/[0.04] border border-white/10 backdrop-blur-2xl rounded-[36px] p-4 sm:p-6 shadow-2xl shadow-black/30">
             <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
               <div>
@@ -225,7 +225,7 @@ export default function Home() {
             <HotelGrid rooms={rooms} />
           </div>
 
-          <div className="space-y-6 2xl:sticky 2xl:top-8 h-fit">
+          <div className="space-y-6 xl:sticky xl:top-8 h-fit">
             <BookingSummary selectedRooms={selectedRooms} />
 
             <StatsCard
